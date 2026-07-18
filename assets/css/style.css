@@ -132,22 +132,6 @@ img.hidden {
   transform: scale(0.9);
 }
 
-@keyframes rps-bounce-3 {
-  0%   { transform: scaleX(var(--flip)) scale(var(--hand-scale)) translateY(0); }
-  16%  { transform: scaleX(var(--flip)) scale(var(--hand-scale)) translateY(-60px); }
-  33%  { transform: scaleX(var(--flip)) scale(var(--hand-scale)) translateY(0); }
-
-  50%  { transform: scaleX(var(--flip)) scale(var(--hand-scale)) translateY(-60px); }
-  66%  { transform: scaleX(var(--flip)) scale(var(--hand-scale)) translateY(0); }
-
-  83%  { transform: scaleX(var(--flip)) scale(var(--hand-scale)) translateY(-60px); }
-  100% { transform: scaleX(var(--flip)) scale(var(--hand-scale)) translateY(0); } 
-}
-
-.shake {
-  animation: rps-bounce-3 1s linear forwards;
-}
-
 /* Tablet screens (≥768px) */
 @media (min-width: 768px) {
   h1 {

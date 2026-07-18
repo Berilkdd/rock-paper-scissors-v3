@@ -32,21 +32,56 @@ function resetHands() {
   computerState = "rock";
 }
 
-function shake(onComplete) {
+function shake(onComplete) {  
 
-  const playerSide = document.getElementById("player-hand")
-  const computerSide = document.getElementById("computer-hand")
+  const playerHand = document.getElementById("player-hand");
+  const computerHand = document.getElementById("computer-hand");
 
-  playerSide.classList.add("shake");
-  computerSide.classList.add("shake");  
+  const keyframes = [
+    { time: 0, position: 0 },
+    { time: 160, position: -60 },
+    { time: 330, position: 0 },
+    { time: 500, position: -60 },
+    { time: 660, position: 0 },
+    { time: 830, position: -60 },
+    { time: 1000, position: 0 }
+  ];
 
-  setTimeout(() => {
-    playerSide.classList.remove("shake");
-    computerSide.classList.remove("shake");  
+  let currentSegment = 0;
+  let animationStart = null;  
+
+  function update(browserTime) {
+
+    if (animationStart === null) {
+      animationStart = browserTime;
+    }    
+    const animationTime = browserTime - animationStart;
+
+    if (currentSegment >= keyframes.length - 1) {
+        playerHand.style.transform = "translateY(0px)";
+        onComplete();
+        return;
+    }
+
+    const start = keyframes[currentSegment];
+    const end = keyframes[currentSegment + 1]; 
+    const position = calculatePosition(start, end, animationTime);
+
+    playerHand.style.transform = `translateY(${position}px)`;
+    computerHand.style.transform = `scaleX(-1) translateY(${position}px)`;
+
+      if (animationTime >= end.time) {
+        currentSegment++;
+      }
+    requestAnimationFrame(update);
+  }
     
-    onComplete()
+  function calculatePosition(start, end, animationTime) {
+    const movementUnit = (end.position - start.position) / (end.time - start.time);
+    return start.position + ((animationTime - start.time) * movementUnit);  
+  }
 
-  }, 900);  
+  requestAnimationFrame(update);  
 }
 
 function playRound(choice) {
